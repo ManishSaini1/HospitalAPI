@@ -10,7 +10,7 @@ const reportSchema=mongoose.Schema(
     },
     patient:
     {
-        type: mongoose.Schema.Types.ObjectId
+        type: String
     },
     status:
     {
