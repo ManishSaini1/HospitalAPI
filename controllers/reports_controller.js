@@ -1,16 +1,17 @@
 const Report = require("../models/patient_report");
+const Doctor = require("../models/doctor");
+const Report = require("../models/patient_report");
 
-
-
-
-
+// Creating Report for Patient
 module.exports.createReport = async function (req, res) {
   const userPhone = req.params.id;
-  console.log(req.body);
+  //Getting details of the logged in user from the Session 
   const { passport } = req.session;
   const doctorEmail = passport.user.email;
   const doctor = await Doctor.findOne({ email: doctorEmail });
+  //Finding the patient whom report to be create
   const patient = await Patitent.findOne({ phone: userPhone });
+  //Getting the Current Date for Repor
   let currentDate = new Date();
   currentDate = currentDate.toJSON().slice(0, 10);
   Report.create(
@@ -21,12 +22,10 @@ module.exports.createReport = async function (req, res) {
       date: currentDate,
     },
     function (error, report) {
-      console.log("Report is ", report);
       if (error) {
         console.log("Error in Creating Report", error);
         return;
       }
-      console.log("All reports of patient", patient.reports);
       patient.reports.push(report);
       patient.save();
     }
@@ -36,10 +35,10 @@ module.exports.createReport = async function (req, res) {
     message: "Report Generated Success Fully!!",
   });
 };
-
+//Generting all report for the requested User
 module.exports.allReports = async function (req, res) {
   const patientPhone = req.params.id;
-  console.log(" I am here in all reports", patientPhone);
+  //Finding the patient with Requested Id
   const patient = await Patitent.findOne({ phone: patientPhone });
 
   if (!patient) {
@@ -47,6 +46,7 @@ module.exports.allReports = async function (req, res) {
       message: "Patient Not Found ",
     });
   }
+  //Creating Report array for the Requested User
   let reports = [];
   for (let i of patient.reports) {
     let currentReport = await Report.find({ _id: i });
@@ -67,28 +67,26 @@ module.exports.allReports = async function (req, res) {
     },
   });
 };
-
+// Generating all Reports for requested status
 module.exports.reportForSpecificStauts = async function (req, res) {
-  var curr = req.params.status;
-  console.log(curr);
+  var requestedStatus = req.params.status;
 
-  let rr = await Report.find({ status: curr });
+//Finding all the Reports with Requested status
+  let reportsWithRequestedStatus = await Report.find({ status: requestedStatus });
 
   const reportArray = [];
-  for (let i of rr) {
+  for (let i of reportsWithRequestedStatus ) {
     const { doctor, patient, date, status } = i;
-    const obj = {
+    const reportObject = {
       Doctor: doctor,
       Patient: patient,
       Date: date,
       Status: status,
     };
-    reportArray.push(obj);
+    reportArray.push(reportObject);
   }
-  console.log("PIP");
-  console.log("rrr", rr);
   return res.status(200).send({
-    message: `Reports with Status : ${curr}`,
+    message: `Reports with Status : ${requestedStatus}`,
     report: reportArray,
   });
 };
