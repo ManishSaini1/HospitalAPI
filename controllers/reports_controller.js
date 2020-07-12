@@ -1,6 +1,6 @@
 const Report = require("../models/patient_report");
 const Doctor = require("../models/doctor");
-const Report = require("../models/patient_report");
+const Patient =require("../models/patient");
 
 // Creating Report for Patient
 module.exports.createReport = async function (req, res) {
@@ -10,7 +10,7 @@ module.exports.createReport = async function (req, res) {
   const doctorEmail = passport.user.email;
   const doctor = await Doctor.findOne({ email: doctorEmail });
   //Finding the patient whom report to be create
-  const patient = await Patitent.findOne({ phone: userPhone });
+  const patient = await Patient.findOne({ phone: userPhone });
   //Getting the Current Date for Repor
   let currentDate = new Date();
   currentDate = currentDate.toJSON().slice(0, 10);
@@ -39,7 +39,7 @@ module.exports.createReport = async function (req, res) {
 module.exports.allReports = async function (req, res) {
   const patientPhone = req.params.id;
   //Finding the patient with Requested Id
-  const patient = await Patitent.findOne({ phone: patientPhone });
+  const patient = await Patient.findOne({ phone: patientPhone });
 
   if (!patient) {
     return res.status(404).send({
@@ -61,7 +61,7 @@ module.exports.allReports = async function (req, res) {
   }
 
   return res.status(200).send({
-    message: " Report of Patient",
+    message: `All Reports For ${patient.name}`,
     data: {
       report: reports,
     },

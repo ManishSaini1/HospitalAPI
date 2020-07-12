@@ -14,6 +14,6 @@ router.post(
   passport.authenticate("jwt", { session: true }),
   reportController.createReport
 );
-router.get("/:id/all_reports", reportController.createReport);
+router.get("/:id/all_reports", reportController.allReports);
 
 module.exports = router;

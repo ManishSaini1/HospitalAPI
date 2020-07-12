@@ -24,7 +24,7 @@ module.exports.registerPatient = async function (req, res) {
       details: {
         name: patient.name,
         phone: patient.phone,
-        report: patient.reports,
+      
       },
     });
   });
