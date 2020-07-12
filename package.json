@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/ManishSaini1/HospitalAPI#readme",
   "dependencies": {
+    "connect-mongo": "^3.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.23",
     "passport": "^0.4.1",
