@@ -37,8 +37,6 @@ passport.deserializeUser(function (id, done) {
 });
 passport.checkAuthentication = function (req, res, next) {
   return next();
-
-  // return res.redirect('/users/sign-in');
 };
 passport.setAuthenticatedUser = function (req, res, next) {
   console.log(" I AM HERE", req.isAuthenticated());
