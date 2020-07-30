@@ -6,7 +6,7 @@ const reportController = require("../controllers/reports_controller");
 // Patient Router
 router.post(
   "/register",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   patientController.registerPatient
 );
 router.post(

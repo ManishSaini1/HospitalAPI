@@ -2,6 +2,7 @@ const Patitent = require("../models/patient");
 
 // Patient Registration
 module.exports.registerPatient = async function (req, res) {
+  console.log("IN Patient Controller", req.body);
   let patient = await Patitent.findOne({ phone: req.body.phone });
   // If patient already Exists then returning the details
   if (patient) {
