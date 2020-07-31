@@ -12,8 +12,8 @@ let should = chai.should();
 chai.use(chaiHttp);
 //Our parent block
 describe("Patient", () => {
-  describe("/GET reports/positive-admit", () => {
-    it("it should GET all the Patients", (done) => {
+  describe("Get Response of Registered User", () => {
+    it("it should return the data of Regestering User", (done) => {
       chai
         .request("http://localhost:8000")
         .post("/patients/register")
@@ -21,7 +21,7 @@ describe("Patient", () => {
           "content-type",
           "application/x-www-form-urlencoded",
           "Authorization",
-         { token}
+          { token }
         )
         .send({
           _method: "POST",
@@ -30,15 +30,10 @@ describe("Patient", () => {
         })
 
         .end((err, res) => {
-          //   res.should.have.status(200);
-          should.exist(true);
-          // should.have.status(200);
-
-          //   res.body.should.be.a("array");
-          //   res.body.length.should.be.eql(0);
-          // assert(res);
-          console.log("Res is", res.status);
-          console.log("Error is", err);
+          assert.equal(res.status, 200, "Status Matched");
+          assert.isNotNull(res.body, "Have Message in Body");
+          assert.isNotNull(res.body.details.name, "Have Name of Pateint");
+          assert.isNotNull(res.body.details.phone, "Have Phone of Pateint");
           done();
         });
     });
