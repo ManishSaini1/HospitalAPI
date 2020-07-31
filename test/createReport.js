@@ -1,4 +1,4 @@
-
+ 
 //Require the dev-dependencies
 let chai = require("chai");
 let chaiHttp = require("chai-http");
@@ -31,7 +31,6 @@ describe("Report", () => {
           assert.isNotNull(res.body.patient, "Patient Name");
           assert.isNotNull(res.body.status, "Report Status");
           assert.isNotNull(res.body.date, "Report Date");
-           console.log("Response is ", res.body);
           done();
         });
     });
