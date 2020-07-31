@@ -1,11 +1,11 @@
 const Report = require("../models/patient_report");
 const Doctor = require("../models/doctor");
-const Patient =require("../models/patient");
+const Patient = require("../models/patient");
 
 // Creating Report for Patient
 module.exports.createReport = async function (req, res) {
   const userPhone = req.params.id;
-  //Getting details of the logged in user from the Session 
+  //Getting details of the logged in user from the Session
   const { passport } = req.session;
   const doctorEmail = passport.user.email;
   const doctor = await Doctor.findOne({ email: doctorEmail });
@@ -33,6 +33,10 @@ module.exports.createReport = async function (req, res) {
 
   return res.status(200).send({
     message: "Report Generated Success Fully!!",
+      doctor: doctor.name,
+      patient: patient.name,
+      status: req.body.status,
+      date: currentDate,
   });
 };
 //Generting all report for the requested User
@@ -71,11 +75,13 @@ module.exports.allReports = async function (req, res) {
 module.exports.reportForSpecificStauts = async function (req, res) {
   var requestedStatus = req.params.status;
 
-//Finding all the Reports with Requested status
-  let reportsWithRequestedStatus = await Report.find({ status: requestedStatus });
+  //Finding all the Reports with Requested status
+  let reportsWithRequestedStatus = await Report.find({
+    status: requestedStatus,
+  });
 
   const reportArray = [];
-  for (let i of reportsWithRequestedStatus ) {
+  for (let i of reportsWithRequestedStatus) {
     const { doctor, patient, date, status } = i;
     const reportObject = {
       Doctor: doctor,
